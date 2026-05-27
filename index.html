@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sumanth Kumar M — AI / Agent Engineer</title>
+<meta name="description" content="Sumanth Kumar M — AI / Agent Engineer. I design, ship, and operate production LLM agent systems. 8 years of software engineering. Remote." />
+<meta property="og:title" content="Sumanth Kumar M — AI / Agent Engineer" />
+<meta property="og:description" content="I design, ship, and operate production LLM agent systems — autonomous software, not prototypes." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --accent:#818cf8; --accent-2:#c084fc; --grad:linear-gradient(135deg,#818cf8,#c084fc);
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace; --radius:14px;
+  }
+  [data-theme="dark"]{ --bg:#08090d; --surface:#111319; --surface-2:#0c0e13; --surface-3:#161922;
+    --border:#232733; --border-soft:#1a1d27; --text:#e8ebf2; --dim:#9aa3b4; --faint:#5f6675;
+    --glow:rgba(129,140,248,.16); --shadow:0 12px 40px -14px rgba(0,0,0,.6); }
+  [data-theme="light"]{ --bg:#fbfbfd; --surface:#fff; --surface-2:#f5f6f8; --surface-3:#f0f1f4;
+    --border:#e5e7eb; --border-soft:#eceef1; --text:#15171c; --dim:#5b6270; --faint:#98a0ad;
+    --glow:rgba(129,140,248,.14); --shadow:0 12px 40px -16px rgba(40,40,80,.16); }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:15px;
+    line-height:1.65; -webkit-font-smoothing:antialiased; position:relative; overflow-x:hidden; }
+  body::before{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(900px 460px at 50% -12%, var(--glow), transparent 70%); }
+  .wrap{ position:relative; z-index:1; max-width:920px; margin:0 auto; padding:0 24px 90px; }
+  a{ color:var(--accent); text-decoration:none; }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:22px 0; }
+  .brand{ display:flex; align-items:center; gap:11px; font-weight:700; font-size:16px; }
+  .mark{ width:28px; height:28px; border-radius:8px; background:var(--grad); display:grid; place-items:center;
+    color:#fff; font-size:14px; font-weight:800; box-shadow:0 4px 14px -4px var(--accent); }
+  .iconbtn{ width:36px; height:36px; background:var(--surface); border:1px solid var(--border); color:var(--dim);
+    border-radius:9px; cursor:pointer; font-size:15px; }
+  .iconbtn:hover{ color:var(--text); border-color:var(--accent); }
+
+  header.hero{ padding:46px 0 30px; }
+  .pill{ display:inline-flex; align-items:center; gap:8px; font-size:12.5px; color:var(--dim);
+    background:var(--surface); border:1px solid var(--border); border-radius:999px; padding:6px 14px; margin-bottom:22px; }
+  .pill .dot{ width:7px; height:7px; border-radius:50%; background:#34d399; box-shadow:0 0 8px #34d399; }
+  h1{ font-size:clamp(32px,6vw,50px); line-height:1.06; letter-spacing:-0.03em; margin:0 0 10px; font-weight:800; }
+  .role{ font-size:19px; font-weight:600; margin:0 0 18px; }
+  .role .g{ background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  .lede{ font-size:18px; color:var(--dim); max-width:660px; margin:0 0 26px; }
+  .lede b{ color:var(--text); font-weight:600; }
+  .cta{ display:flex; gap:11px; flex-wrap:wrap; }
+  .btn{ display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:11px; font-size:14px;
+    font-weight:600; border:1px solid var(--border); background:var(--surface); color:var(--text); transition:.15s; }
+  .btn:hover{ border-color:var(--accent); transform:translateY(-1px); }
+  .btn.primary{ background:var(--grad); color:#0a0118; border:0; box-shadow:0 8px 22px -8px var(--accent); }
+
+  h2{ font-size:13px; text-transform:uppercase; letter-spacing:.12em; color:var(--faint); margin:54px 0 18px;
+    padding-bottom:10px; border-bottom:1px solid var(--border-soft); }
+  .work{ display:grid; gap:14px; }
+  .card{ border:1px solid var(--border); border-radius:var(--radius); background:var(--surface-2); padding:20px 22px; transition:.15s; }
+  .card:hover{ border-color:color-mix(in srgb,var(--accent) 45%, var(--border)); }
+  .card.feature{ background:var(--surface); box-shadow:var(--shadow); border-color:color-mix(in srgb,var(--accent) 30%, var(--border)); }
+  .card h3{ margin:0 0 7px; font-size:17px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .tagk{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--accent-2);
+    background:color-mix(in srgb,var(--accent) 16%, transparent); padding:3px 8px; border-radius:6px; }
+  .card p{ margin:0 0 12px; color:var(--dim); font-size:14.5px; }
+  .card .links{ display:flex; gap:10px; flex-wrap:wrap; }
+  .lk{ font-size:13.5px; font-weight:600; display:inline-flex; align-items:center; gap:6px; padding:7px 12px;
+    border:1px solid var(--border); border-radius:9px; }
+  .lk:hover{ border-color:var(--accent); }
+
+  .skills p{ margin:0 0 9px; font-size:14px; color:var(--dim); }
+  .skills b{ color:var(--text); }
+  .skills .mono{ font-family:var(--mono); font-size:12.8px; }
+
+  .xp{ display:grid; gap:3px; }
+  .xprow{ display:flex; justify-content:space-between; gap:14px; padding:11px 0; border-bottom:1px solid var(--border-soft); flex-wrap:wrap; }
+  .xprow:last-child{ border-bottom:0; }
+  .xprole{ font-weight:600; } .xporg{ color:var(--dim); }
+  .xpdate{ color:var(--faint); font-size:13px; font-family:var(--mono); white-space:nowrap; }
+
+  footer{ margin-top:54px; padding-top:24px; border-top:1px solid var(--border-soft); color:var(--faint);
+    font-size:13.5px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  @media (max-width:640px){ .xprow{ flex-direction:column; gap:2px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="mark">S</span> Sumanth Kumar M</div>
+    <button class="iconbtn" id="theme" title="Toggle theme" aria-label="Toggle theme">☾</button>
+  </nav>
+
+  <header class="hero">
+    <span class="pill"><span class="dot"></span> Open to remote AI / Agent Engineer roles · UTC+5:30</span>
+    <h1>Sumanth Kumar M</h1>
+    <p class="role"><span class="g">AI / Agent Engineer</span> · 8 years of software engineering</p>
+    <p class="lede">I design, ship, and <b>operate production LLM agent systems</b> — autonomous software running 24/7, not prototypes. I build and run a self-hosted multi-agent platform, and open-sourced a multi-agent code reviewer with a measured evaluation benchmark.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://skmdroid.github.io/quorum" target="_blank" rel="noopener">▶ Live demo — Quorum</a>
+      <a class="btn" href="https://github.com/skmdroid" target="_blank" rel="noopener">★ GitHub</a>
+      <a class="btn" href="https://linkedin.com/in/sumanthkm" target="_blank" rel="noopener">in LinkedIn</a>
+      <a class="btn" href="mailto:sumanthkm93@gmail.com">✉ Email</a>
+    </div>
+  </header>
+
+  <h2>Selected Work</h2>
+  <div class="work">
+    <div class="card feature">
+      <h3>Quorum <span class="tagk">Open source · live demo</span></h3>
+      <p>A multi-agent code reviewer. A dispatcher routes a diff to specialist LLM agents — security, performance, correctness, tests, style — in parallel; a synthesizer consolidates them into one verdict. Provider-agnostic (Claude / OpenAI / Ollama) with native structured output, a CI-gated detection-eval benchmark (recall / false-alarm scored), config-driven custom agents, and zero runtime dependencies. The demo runs the whole engine in your browser via WebAssembly.</p>
+      <div class="links">
+        <a class="lk" href="https://skmdroid.github.io/quorum" target="_blank" rel="noopener">▶ Live demo</a>
+        <a class="lk" href="https://github.com/skmdroid/quorum" target="_blank" rel="noopener">‹/› Source</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Autonomous multi-agent ops platform</h3>
+      <p>An LLM dispatcher that routes tasks to specialized agents (issue triage, content generation, code execution, strategy), with a realtime task board (REST + Server-Sent Events), per-task model routing, automatic retries, heartbeats, idempotency, and agents that self-report via API. Runs unattended 24/7.</p>
+    </div>
+    <div class="card">
+      <h3>Crash-triage &amp; strategy agents</h3>
+      <p>A crash-triage agent watches production crash signals and drafts/routes fixes automatically; a strategy agent scores candidate actions by expected value and surfaces one ranked recommendation per day.</p>
+    </div>
+    <div class="card">
+      <h3>Cross-platform app portfolio</h3>
+      <p>15+ production apps (Flutter / Android / iOS) with Firebase, CI/CD, 15-language localization, and on-device + cloud AI features — 100K+ combined installs at 99.5% crash-free.</p>
+    </div>
+  </div>
+
+  <h2>What I work with</h2>
+  <div class="skills">
+    <p><b>AI / LLM</b> &nbsp;<span class="mono">Claude / OpenAI / Ollama orchestration · multi-agent systems · tool use &amp; function calling · structured output · prompt engineering &amp; caching · RAG · agent memory · MCP · model routing · evals (golden-dataset, LLM-as-judge)</span></p>
+    <p><b>Languages</b> &nbsp;<span class="mono">Python · Dart · JavaScript / TypeScript · Kotlin · Java · Swift</span></p>
+    <p><b>Backend &amp; infra</b> &nbsp;<span class="mono">Flask · REST · Server-Sent Events · SQLite · Firebase · Linux · systemd · cron · CI/CD</span></p>
+    <p><b>Mobile</b> &nbsp;<span class="mono">React Native · Flutter · native Android (Jetpack Compose, MVVM, Coroutines) · iOS</span></p>
+  </div>
+
+  <h2>Experience</h2>
+  <div class="xp">
+    <div class="xprow"><div><span class="xprole">Software Engineer</span> · <span class="xporg">Unify Technologies</span></div><span class="xpdate">Feb 2024 – Present</span></div>
+    <div class="xprow"><div><span class="xprole">Senior Software Engineer</span> · <span class="xporg">Robosoft Technologies</span></div><span class="xpdate">Dec 2022 – Jan 2024</span></div>
+    <div class="xprow"><div><span class="xprole">Senior Software Engineer</span> · <span class="xporg">LoadShare Networks</span></div><span class="xpdate">Sep 2021 – Oct 2022</span></div>
+    <div class="xprow"><div><span class="xprole">Software Engineer</span> · <span class="xporg">Robosoft Technologies</span></div><span class="xpdate">Jul 2020 – Jul 2021</span></div>
+    <div class="xprow"><div><span class="xprole">Software Engineer</span> · <span class="xporg">Advanced Voice Research Labs</span></div><span class="xpdate">Jun 2018 – Jun 2020</span></div>
+  </div>
+
+  <footer>
+    <span>M.E. Computing Technologies &amp; Virtualisation · B.E. Computer Science</span>
+    <span><a href="mailto:sumanthkm93@gmail.com">sumanthkm93@gmail.com</a></span>
+  </footer>
+</div>
+<script>
+  const t = localStorage.getItem("skm-theme") || "dark";
+  const btn = document.getElementById("theme");
+  const apply = (v) => { document.documentElement.dataset.theme = v; btn.textContent = v === "dark" ? "☾" : "☀"; };
+  apply(t);
+  btn.addEventListener("click", () => {
+    const v = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    localStorage.setItem("skm-theme", v); apply(v);
+  });
+</script>
+</body>
+</html>
