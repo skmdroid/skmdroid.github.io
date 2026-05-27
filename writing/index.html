@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Writing — Sumanth Kumar M</title>
+<meta name="description" content="Notes on building and operating LLM agent systems — by Sumanth Kumar M, AI / Agent Engineer." />
+<link rel="canonical" href="https://sumanthkm.com/writing/" />
+<meta property="og:title" content="Writing — Sumanth Kumar M" />
+<meta property="og:description" content="Notes on building and operating LLM agent systems." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/article.css" />
+</head>
+<body>
+<nav>
+  <a class="brand" href="/">← sumanth kumar m</a>
+  <div class="r">
+    <a href="/#work">/work</a>
+    <a href="https://github.com/skmdroid" target="_blank" rel="noopener">/github</a>
+    <button class="iconbtn" id="theme" aria-label="Toggle theme">☀</button>
+  </div>
+</nav>
+
+<div class="container">
+  <article style="padding-bottom:24px">
+    <span class="eyebrow">Writing</span>
+    <h1>Notes on building agents.</h1>
+    <p class="lead">Field notes from designing and operating production LLM agent systems — architecture, trade-offs, and the unglamorous parts (evals, failure modes, reliability).</p>
+  </article>
+
+  <ul class="posts">
+    <li>
+      <div class="d">2026-05-27 · 8 min read</div>
+      <h2><a href="/writing/multi-agent-code-reviewer.html">Designing a multi-agent code reviewer — and measuring it honestly</a></h2>
+      <p>Why a panel of specialist agents beats one model spread thin, how routing and structured output hold it together, and the eval mistake that made a dumb heuristic look smarter than a real LLM.</p>
+    </li>
+  </ul>
+</div>
+
+<footer>© Sumanth Kumar M · <a href="mailto:sumanthkm93@gmail.com">sumanthkm93@gmail.com</a> · <a href="https://github.com/skmdroid" target="_blank" rel="noopener">github.com/skmdroid</a></footer>
+
+<script>
+  const tk = localStorage.getItem("skm-theme") || "light";
+  const tb = document.getElementById("theme");
+  const ap = v => { document.documentElement.dataset.theme = v; if(tb) tb.textContent = v === "dark" ? "☾" : "☀"; };
+  ap(tk);
+  if (tb) tb.addEventListener("click", () => { const v = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; localStorage.setItem("skm-theme", v); ap(v); });
+</script>
+</body>
+</html>

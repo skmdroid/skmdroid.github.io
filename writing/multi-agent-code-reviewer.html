@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Designing a multi-agent code reviewer — and measuring it honestly | Sumanth Kumar M</title>
+<meta name="description" content="How I built Quorum, a multi-agent LLM code reviewer: routing a diff to specialist agents, native structured output, a deterministic synthesizer — and the evaluation mistake that made a dumb heuristic look smarter than a real LLM." />
+<meta name="author" content="Sumanth Kumar M" />
+<link rel="canonical" href="https://sumanthkm.com/writing/multi-agent-code-reviewer.html" />
+<meta property="og:title" content="Designing a multi-agent code reviewer — and measuring it honestly" />
+<meta property="og:description" content="Routing, structured output, a deterministic synthesizer — and the eval mistake that made a dumb heuristic look smarter than a real LLM." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sumanthkm.com/writing/multi-agent-code-reviewer.html" />
+<meta name="twitter:card" content="summary" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Designing a multi-agent code reviewer — and measuring it honestly",
+  "description": "How I built Quorum, a multi-agent LLM code reviewer: routing, structured output, a deterministic synthesizer, and an honest evaluation method.",
+  "datePublished": "2026-05-27",
+  "author": { "@type": "Person", "name": "Sumanth Kumar M", "url": "https://sumanthkm.com" },
+  "keywords": "multi-agent systems, LLM, code review, AI agents, structured output, LLM evaluation, RAG, Python",
+  "mainEntityOfPage": "https://sumanthkm.com/writing/multi-agent-code-reviewer.html"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/article.css" />
+</head>
+<body>
+<nav>
+  <a class="brand" href="/">← sumanth kumar m</a>
+  <div class="r">
+    <a href="/writing/">/writing</a>
+    <a href="https://github.com/skmdroid/quorum" target="_blank" rel="noopener">/github</a>
+    <button class="iconbtn" id="theme" aria-label="Toggle theme">☀</button>
+  </div>
+</nav>
+
+<div class="container">
+<article>
+  <span class="eyebrow"><span class="n">Essay</span> · multi-agent systems</span>
+  <h1>Designing a multi-agent code reviewer — and measuring it honestly</h1>
+  <div class="meta">2026-05-27 · 8 min read · by Sumanth Kumar M</div>
+
+  <p class="lead">A single LLM told to "review this code" spreads itself thin and misses things. So I built <a href="https://github.com/skmdroid/quorum" target="_blank" rel="noopener">Quorum</a> as a <strong>panel</strong>: a dispatcher routes a diff to specialist agents, they review in parallel, and a synthesizer returns one verdict. The interesting parts weren't the prompts — they were the routing, the output contract, and learning to measure the thing without lying to myself.</p>
+
+  <h2>Why a panel beats one prompt</h2>
+  <p>Ask one model to check security <em>and</em> performance <em>and</em> correctness <em>and</em> tests <em>and</em> style in a single pass and it does all of them at 60%. Each concern competes for the same attention budget, and the cross-cutting instruction ("also consider…") dilutes every individual check.</p>
+  <p>Quorum gives each concern its own agent with a focused system prompt — <strong>security, performance, correctness, tests, style</strong> — and runs them concurrently. Two practical wins fall out of that:</p>
+  <ul>
+    <li><strong>Model tiering.</strong> Each agent declares a tier — <code>strong</code> or <code>fast</code>. High-stakes checks (security, correctness) get the stronger model; nits (style) get the cheaper, faster one. You spend tokens where they matter.</li>
+    <li><strong>Routing.</strong> A docs-only change skips the security and performance agents entirely. If the diff already updates tests, the "missing tests" agent is dropped. Less noise, lower cost.</li>
+  </ul>
+
+  <h2>Failure is a first-class case</h2>
+  <p>The moment you have five agents calling a model provider, one of them <em>will</em> time out or return garbage. The rule I held to: <strong>one agent failing never aborts the panel.</strong> Each agent runs inside a wrapper that turns any exception into a recorded failed result, and the review continues with whatever the other agents produced. A flaky model call degrades the review; it doesn't fail it closed.</p>
+  <p>That same instinct paid off when I put the demo in the browser via Pyodide (WebAssembly), which has no threads. The parallel dispatcher would have thrown <code>can't start new thread</code> — so it falls back to sequential execution when threads aren't available. Same agents, same results, just slower. The pipeline runs anywhere.</p>
+
+  <h2>The output contract: structured-first, with a safety net</h2>
+  <p>"AI doesn't give you clean JSON" is half true. Modern providers <em>do</em> — if you ask correctly. Quorum requests <strong>native structured output</strong> per provider: OpenAI's <code>json_schema</code> mode, Anthropic's forced tool-use, Ollama's <code>format</code> field. The reply is schema-valid by construction, not scraped out of prose.</p>
+  <p>But not every backend can enforce a schema — a CLI subprocess, or a small local model that drifts. So there's a tolerant parser underneath that extracts the findings array whether the model returned a clean object, a bare array, or JSON buried in chatter. Structured-first, with a fallback that keeps the panel from breaking on a model that gets chatty.</p>
+
+  <h2>The synthesizer is deterministic on purpose</h2>
+  <p>Findings from all agents are merged, de-duplicated on <code>(file, line, title)</code>, and sorted by severity. The verdict itself is <strong>not</strong> left to a model — it's a pure function of the findings, so the same review always yields the same call:</p>
+  <pre><code>def decide_verdict(findings):
+    severities = {f.severity for f in findings}
+    if severities &amp; {"critical", "high"}:
+        return "REQUEST_CHANGES"
+    if "medium" in severities:
+        return "COMMENT"
+    return "APPROVE"</code></pre>
+  <p>An LLM writes the human-readable summary, but the gate that can block a merge is deterministic and auditable. You don't want the thing wired into CI to be a coin flip.</p>
+
+  <h2>Measuring it without lying to myself</h2>
+  <p>Here's the part I'm proudest of, because it's where I caught my own mistake.</p>
+  <p>I built a benchmark: a corpus of diffs with <strong>known planted defects</strong> (an <code>eval()</code> call, a SQL injection by string concatenation, an off-by-one, a bare <code>except</code>) plus some <strong>clean</strong> diffs. My first scoring used the obvious metric — precision, recall, F1 — counting any finding that didn't match a planted label as a false positive.</p>
+  <p>That metric lied. It told me the deterministic mock reviewer (F1 0.80) was <em>better</em> than the real LLM panel (F1 0.46). Which is nonsense — the LLM had perfect recall. What actually happened: on a diff that contains a known bug, a thorough reviewer also flags <em>other</em> real issues the corpus never labeled. My precision metric punished the good reviewer for being thorough, conflating "wrong" with "unlabeled-but-valid."</p>
+  <blockquote>A metric that rewards silence is worse than no metric. It will quietly push you toward the dumber system.</blockquote>
+  <p>So I threw out global precision/F1 and measured only the two things I can label with confidence:</p>
+  <ul>
+    <li><strong>Recall</strong> — of the planted defects, how many did the panel catch? (scored on the defect diffs)</li>
+    <li><strong>False alarms</strong> — how many findings did it raise on the <em>clean</em> diffs, where the answer is "nothing"? (scored on the clean diffs)</li>
+  </ul>
+  <p>Extra findings on defect diffs are reported separately, as information, not as errors. With that framing the numbers finally tell the truth:</p>
+  <table>
+    <tr><th>Provider</th><th>Recall</th><th>False alarms (clean)</th></tr>
+    <tr><td>mock (deterministic)</td><td>0.67</td><td>0</td></tr>
+    <tr><td>LLM panel</td><td>1.00</td><td>0</td></tr>
+  </table>
+  <p>The mock is precise but blind to anything without a keyword tell; the LLM panel catches the semantic defects too. The benchmark is deterministic under the mock provider, so it gates CI with no API key — and you can re-run it against a real provider to measure the live panel on the same corpus.</p>
+
+  <h2>What I'd tell someone building one</h2>
+  <ul>
+    <li><strong>Split concerns into agents</strong> with focused prompts and route them; don't ask one model to do everything.</li>
+    <li><strong>Make failure cheap</strong> — isolate each agent so one bad call degrades, never aborts.</li>
+    <li><strong>Pin the output contract</strong> with native structured output, and keep a tolerant parser as a seatbelt.</li>
+    <li><strong>Keep the decision deterministic</strong> where it has consequences.</li>
+    <li><strong>Be ruthless about your eval.</strong> The wrong metric doesn't just mislead — it actively steers you toward the worse system. Measure what you can label honestly.</li>
+  </ul>
+
+  <hr />
+  <p>Quorum is open source (zero runtime dependencies) and runs entirely in your browser in the demo:</p>
+  <div class="cta-row">
+    <a class="btn primary" href="https://skmdroid.github.io/quorum" target="_blank" rel="noopener">▶ Live demo</a>
+    <a class="btn" href="https://github.com/skmdroid/quorum" target="_blank" rel="noopener">Source on GitHub</a>
+  </div>
+  <p class="meta" style="margin-top:26px">I'm Sumanth — an AI / Agent Engineer who builds and operates production LLM agent systems. <a href="/">More about me</a> · open to remote roles · <a href="mailto:sumanthkm93@gmail.com">sumanthkm93@gmail.com</a>.</p>
+</article>
+</div>
+
+<footer>© Sumanth Kumar M · <a href="mailto:sumanthkm93@gmail.com">sumanthkm93@gmail.com</a> · <a href="https://github.com/skmdroid" target="_blank" rel="noopener">github.com/skmdroid</a></footer>
+
+<script>
+  const tk = localStorage.getItem("skm-theme") || "light";
+  const tb = document.getElementById("theme");
+  const ap = v => { document.documentElement.dataset.theme = v; if(tb) tb.textContent = v === "dark" ? "☾" : "☀"; };
+  ap(tk);
+  if (tb) tb.addEventListener("click", () => { const v = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; localStorage.setItem("skm-theme", v); ap(v); });
+</script>
+</body>
+</html>
