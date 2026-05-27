@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0;}
+  .card{width:1200px;height:630px;background:#f4f1ea;color:#1b1a17;
+    font-family:-apple-system,"Segoe UI",Roboto,sans-serif;position:relative;overflow:hidden;
+    padding:72px 80px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;}
+  .top{font-family:ui-monospace,Menlo,monospace;font-size:22px;letter-spacing:.18em;
+    text-transform:uppercase;color:#8c8678;display:flex;align-items:center;gap:16px;}
+  .mark{width:40px;height:40px;border:2.5px solid #1b1a17;display:grid;place-items:center;
+    font-family:Georgia,serif;font-weight:700;font-size:22px;color:#1b1a17;}
+  .rule{height:5px;width:120px;background:#d6440e;margin:0 0 24px;}
+  h1{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:80px;line-height:1.02;
+    letter-spacing:-0.02em;margin:0;}
+  h1 em{font-style:italic;color:#d6440e;}
+  .who{font-size:29px;color:#56524a;margin:0 0 6px;}
+  .who b{color:#1b1a17;font-weight:600;}
+  .url{font-family:ui-monospace,Menlo,monospace;font-size:23px;color:#1b1a17;}
+  .glow{position:absolute;top:-180px;right:-120px;width:560px;height:560px;border-radius:50%;
+    background:radial-gradient(circle,rgba(214,68,14,.10),transparent 68%);}
+</style></head>
+<body><div class="card">
+  <div class="glow"></div>
+  <div class="top"><span class="mark">◈</span> Quorum · open source</div>
+  <div>
+    <div class="rule"></div>
+    <h1>A panel of <em>agents</em><br>reviews your code.</h1>
+  </div>
+  <div>
+    <p class="who"><b>Multi-agent code reviewer</b> — Claude / OpenAI / Ollama</p>
+    <p class="url">eval-benchmarked · zero deps · runs in your browser</p>
+  </div>
+</div></body></html>
