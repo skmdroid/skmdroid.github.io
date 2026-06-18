@@ -126,6 +126,13 @@
   .card{ background:var(--card); padding:30px 30px; transition:.18s; }
   .card:hover{ background:var(--accent-soft); }
   .card.feature{ grid-column:span 2; }
+  .card.airgap{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(22px,3vw,46px); align-items:center; }
+  .appshot{ display:flex; justify-content:center; perspective:1500px; padding:4px 0; }
+  .appshot .ph{ width:154px; border-radius:26px; border:7px solid #141118; background:#141118;
+    overflow:hidden; box-shadow:0 26px 54px rgba(40,28,16,.30); }
+  .appshot .ph img{ width:100%; display:block; }
+  .appshot .ph.a{ transform:rotateY(16deg) rotateZ(-4deg) translateX(22px); z-index:1; }
+  .appshot .ph.b{ transform:rotateY(16deg) rotateZ(4deg) translateX(-26px) translateY(22px); z-index:2; }
   .card .k{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
   .card h3{ font-family:var(--display); font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:8px 0 10px; }
   .card p{ margin:0 0 16px; color:var(--ink-2); font-size:15px; max-width:760px; }
@@ -155,6 +162,7 @@
   @media (max-width:900px){
     .hero-grid{ grid-template-columns:1fr; gap:38px; align-items:start; }
     .work{ grid-template-columns:1fr; } .card.feature{ grid-column:auto; }
+    .card.airgap{ grid-template-columns:1fr; } .card.airgap .appshot{ order:-1; } .appshot .ph{ width:140px; }
   }
   @media (max-width:560px){ .navlink{ display:none; } .btn{ flex:1 1 auto; text-align:center; } }
 </style>
@@ -212,8 +220,26 @@
 <section class="band" id="work"><div class="container">
   <span class="eyebrow"><span class="n">01</span> — Selected work</span>
   <h2 class="shead">Things I've built &amp; run.</h2>
-  <p class="ssub">15+ shipped production apps, plus two open-source agent systems with live in-browser demos and a self-hosted multi-agent platform.</p>
+  <p class="ssub">An on-device AI app, two open-source agent systems with live in-browser demos, a self-hosted multi-agent platform, and 15+ shipped apps.</p>
   <div class="work">
+    <div class="card feature airgap">
+      <div>
+        <div class="k">Open source · on-device AI</div>
+        <h3>Airgap — a private AI that runs entirely on your phone</h3>
+        <p>A real LLM runs <em>fully on the device</em> and answers questions about your own
+        documents via on-device retrieval — with citations, claim-level self-verification, and an
+        honest confidence read (it tells you when it isn't sure). Offline after a one-time model
+        download; no cloud, no API key. Imports PDFs, voice in &amp; out, swappable 0.5B/1.5B model.
+        Flutter + native (MediaPipe LiteRT / llama.cpp) · Apache-2.0 · tested + CI.</p>
+        <div class="links">
+          <a class="lk" href="https://github.com/skmdroid/airgap" target="_blank" rel="noopener">source ↗</a>
+        </div>
+      </div>
+      <div class="appshot">
+        <div class="ph a"><img src="/assets/airgap-home.png" alt="Airgap — private, on-device" loading="lazy"></div>
+        <div class="ph b"><img src="/assets/airgap-answer.png" alt="Airgap — a cited, verified answer" loading="lazy"></div>
+      </div>
+    </div>
     <div class="card feature">
       <div class="k">Open source · live demo</div>
       <h3>Quorum — multi-agent code reviewer</h3>
