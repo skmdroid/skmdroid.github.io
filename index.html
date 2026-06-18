@@ -144,6 +144,9 @@
   .xprole{ font-family:var(--display); font-weight:600; font-size:19px; }
   .xporg{ color:var(--ink-2); }
   .xpdate{ font-family:var(--mono); font-size:13px; color:var(--ink-3); white-space:nowrap; }
+  .xptop{ flex:1; min-width:240px; }
+  .xpdesc{ margin-top:7px; font-size:14px; line-height:1.6; color:var(--ink-2); max-width:64ch; }
+  .xptag{ font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--ink-3); text-transform:uppercase; }
 
   footer{ width:100%; padding:38px 0; border-top:1px solid var(--ink); }
   .foot-in{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-family:var(--mono); font-size:12.5px; color:var(--ink-3); }
@@ -267,12 +270,38 @@
 <section class="band"><div class="container">
   <span class="eyebrow"><span class="n">03</span> — Track record</span>
   <h2 class="shead">Experience.</h2>
+  <p class="ssub" style="margin-top:6px">8 years across AI/agent engineering and mobile — native Android, React Native, and Flutter shipped to production.</p>
   <div style="margin-top:24px">
-    <div class="xprow"><div><span class="xprole">Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Unify Technologies</span></div><span class="xpdate">FEB 2024 — PRESENT</span></div>
-    <div class="xprow"><div><span class="xprole">Senior Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Robosoft Technologies</span></div><span class="xpdate">DEC 2022 — JAN 2024</span></div>
-    <div class="xprow"><div><span class="xprole">Senior Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">LoadShare Networks</span></div><span class="xpdate">SEP 2021 — OCT 2022</span></div>
-    <div class="xprow"><div><span class="xprole">Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Robosoft Technologies</span></div><span class="xpdate">JUL 2020 — JUL 2021</span></div>
-    <div class="xprow"><div><span class="xprole">Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Advanced Voice Research Labs</span></div><span class="xpdate">JUN 2018 — JUN 2020</span></div>
+    <div class="xprow">
+      <div class="xptop">
+        <div><span class="xprole">Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Unify Technologies</span></div>
+        <p class="xpdesc"><span class="xptag">AI / Agents</span> &nbsp; Design, ship, and operate production LLM agent systems — multi-agent orchestration (Claude / OpenAI / Ollama), tool use, structured output, RAG, and evals.</p>
+      </div><span class="xpdate">FEB 2024 — PRESENT</span>
+    </div>
+    <div class="xprow">
+      <div class="xptop">
+        <div><span class="xprole">Senior Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Robosoft Technologies</span></div>
+        <p class="xpdesc"><span class="xptag">Mobile</span> &nbsp; Built and shipped cross-platform and native mobile apps — React Native, Flutter, and native Android (Kotlin, Jetpack Compose, MVVM, Coroutines) — with Firebase, CI/CD, and analytics across client products.</p>
+      </div><span class="xpdate">DEC 2022 — JAN 2024</span>
+    </div>
+    <div class="xprow">
+      <div class="xptop">
+        <div><span class="xprole">Senior Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">LoadShare Networks</span></div>
+        <p class="xpdesc"><span class="xptag">Android</span> &nbsp; Native Android development for a logistics platform — Kotlin, MVVM, and Coroutines — building and scaling features for delivery operations at scale.</p>
+      </div><span class="xpdate">SEP 2021 — OCT 2022</span>
+    </div>
+    <div class="xprow">
+      <div class="xptop">
+        <div><span class="xprole">Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Robosoft Technologies</span></div>
+        <p class="xpdesc"><span class="xptag">Mobile</span> &nbsp; Native Android and cross-platform (React Native / Flutter) feature development across client products, from build to Play Store release.</p>
+      </div><span class="xpdate">JUL 2020 — JUL 2021</span>
+    </div>
+    <div class="xprow">
+      <div class="xptop">
+        <div><span class="xprole">Software Engineer</span> &nbsp;·&nbsp; <span class="xporg">Advanced Voice Research Labs</span></div>
+        <p class="xpdesc"><span class="xptag">Android · Voice</span> &nbsp; Android app development with voice and speech features — building mobile experiences around speech recognition and audio.</p>
+      </div><span class="xpdate">JUN 2018 — JUN 2020</span>
+    </div>
   </div>
 </div></section>
 
